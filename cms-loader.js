@@ -19,7 +19,7 @@ class CMSLoader {
     }
 
     async loadContent() {
-        // Charger tous les fichiers de contenu
+        // Charger tous les fichiers de contenu depuis GitHub API
         const files = [
             'content/pages/accueil.md',
             'content/pages/profil.md',
@@ -31,10 +31,10 @@ class CMSLoader {
 
         for (const file of files) {
             try {
-                const response = await fetch(file);
+                const response = await fetch(`https://api.github.com/repos/Revan80/nouvelleVoie/contents/${file}`);
                 if (response.ok) {
-                    const text = await response.text();
-                    const content = this.parseMarkdown(text);
+                    const fileData = await response.json();
+                    const content = this.parseMarkdown(atob(fileData.content));
                     const filename = file.split('/').pop().replace('.md', '');
                     this.content[filename] = content;
                 }
@@ -52,16 +52,13 @@ class CMSLoader {
 
     async loadValues() {
         try {
-            const response = await fetch('content/valeurs/');
+            const response = await fetch('https://api.github.com/repos/Revan80/nouvelleVoie/contents/content/valeurs');
             if (response.ok) {
-                const text = await response.text();
-                // Parser la réponse pour obtenir la liste des fichiers
-                const files = text.match(/href="([^"]*\.md)"/g);
-                if (files) {
-                    this.content.valeurs = [];
-                    for (const fileMatch of files) {
-                        const filename = fileMatch.match(/href="([^"]*)"/)[1];
-                        const fileResponse = await fetch(`content/valeurs/${filename}`);
+                const files = await response.json();
+                this.content.valeurs = [];
+                for (const file of files) {
+                    if (file.name.endsWith('.md')) {
+                        const fileResponse = await fetch(file.download_url);
                         if (fileResponse.ok) {
                             const content = this.parseMarkdown(await fileResponse.text());
                             this.content.valeurs.push(content);
