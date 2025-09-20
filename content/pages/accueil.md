@@ -1,6 +1,6 @@
 ---
-titre: La Nouvelle république4565
-sous_titre: Ensemble, construisons l'avenir de notre société
-bouton_principal: Nous Rejoindre
-bouton_secondaire: Nos Actu
+titre: La Nouvelle Voie - TEST CACHE
+sous_titre: Test de résolution du problème de cache - $(date)
+bouton_principal: Test Bouton Principal
+bouton_secondaire: Test Bouton Secondaire
 ---

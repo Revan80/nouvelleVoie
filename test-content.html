@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de chargement du contenu</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+        pre { background-color: #f8f9fa; padding: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Test de chargement du contenu CMS</h1>
+    
+    <div id="status" class="test-section info">
+        <h3>Statut du chargement</h3>
+        <p>Chargement en cours...</p>
+    </div>
+    
+    <div id="content-test" class="test-section">
+        <h3>Contenu chargé</h3>
+        <div id="content-display"></div>
+    </div>
+    
+    <div id="raw-content" class="test-section">
+        <h3>Contenu brut (Markdown)</h3>
+        <pre id="raw-display"></pre>
+    </div>
+
+    <script>
+        class ContentTester {
+            constructor() {
+                this.statusDiv = document.getElementById('status');
+                this.contentDiv = document.getElementById('content-display');
+                this.rawDiv = document.getElementById('raw-display');
+            }
+
+            async testContentLoading() {
+                try {
+                    this.updateStatus('🔄 Test de chargement du contenu...', 'info');
+                    
+                    // Test direct du fichier accueil.md
+                    const response = await fetch(`content/pages/accueil.md?t=${Date.now()}&v=${Math.random()}`, {
+                        headers: {
+                            'Cache-Control': 'no-cache',
+                            'Pragma': 'no-cache'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`Erreur HTTP: ${response.status}`);
+                    }
+                    
+                    const content = await response.text();
+                    this.rawDiv.textContent = content;
+                    
+                    // Parser le frontmatter
+                    const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
+                    const match = content.match(frontmatterRegex);
+                    
+                    if (match) {
+                        const frontmatter = match[1];
+                        const body = match[2];
+                        const data = {};
+                        
+                        frontmatter.split('\n').forEach(line => {
+                            const colonIndex = line.indexOf(':');
+                            if (colonIndex > 0) {
+                                const key = line.substring(0, colonIndex).trim();
+                                const value = line.substring(colonIndex + 1).trim();
+                                data[key] = value;
+                            }
+                        });
+                        
+                        this.displayContent(data);
+                        this.updateStatus('✅ Contenu chargé avec succès !', 'success');
+                    } else {
+                        throw new Error('Aucun frontmatter trouvé');
+                    }
+                    
+                } catch (error) {
+                    this.updateStatus(`❌ Erreur: ${error.message}`, 'error');
+                    console.error('Erreur de test:', error);
+                }
+            }
+
+            updateStatus(message, type) {
+                this.statusDiv.innerHTML = `<h3>Statut du chargement</h3><p>${message}</p>`;
+                this.statusDiv.className = `test-section ${type}`;
+            }
+
+            displayContent(data) {
+                this.contentDiv.innerHTML = `
+                    <h4>Données parsées :</h4>
+                    <ul>
+                        <li><strong>Titre :</strong> ${data.titre || 'Non défini'}</li>
+                        <li><strong>Sous-titre :</strong> ${data.sous_titre || 'Non défini'}</li>
+                        <li><strong>Bouton principal :</strong> ${data.bouton_principal || 'Non défini'}</li>
+                        <li><strong>Bouton secondaire :</strong> ${data.bouton_secondaire || 'Non défini'}</li>
+                    </ul>
+                `;
+            }
+        }
+
+        // Démarrer le test
+        document.addEventListener('DOMContentLoaded', function() {
+            const tester = new ContentTester();
+            tester.testContentLoading();
+            
+            // Recharger toutes les 5 secondes
+            setInterval(() => {
+                tester.testContentLoading();
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "la-nouvelle-voie",
+  "version": "1.0.0",
+  "description": "Site web de La Nouvelle Voie",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Site statique - pas de build nécessaire'",
+    "dev": "echo 'Site statique - pas de serveur de développement nécessaire'"
+  },
+  "dependencies": {
+    "@netlify/plugin-git-gateway": "^0.0.1"
+  },
+  "devDependencies": {},
+  "keywords": ["politique", "site", "statique"],
+  "author": "La Nouvelle Voie",
+  "license": "MIT"
+}

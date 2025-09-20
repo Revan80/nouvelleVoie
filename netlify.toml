@@ -9,14 +9,27 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
 
+# Headers pour les fichiers de contenu
+[[headers]]
+  for = "/content/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300"
+    X-Content-Type-Options = "nosniff"
+
+# Headers pour les fichiers statiques
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
 [[redirects]]
   from = "/admin"
   to = "/admin/index.html"
   status = 200
 
 # Configuration pour Netlify CMS
-# [[plugins]]
-#   package = "@netlify/plugin-git-gateway"
+[[plugins]]
+  package = "@netlify/plugin-git-gateway"
 
 # Configuration pour l'authentification
 [build.environment]

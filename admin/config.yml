@@ -8,6 +8,9 @@ backend:
     uploadMedia: 'Upload "{{path}}"'
     deleteMedia: 'Delete "{{path}}"'
 
+# Configuration pour le déploiement automatique
+publish_mode: simple
+
 media_folder: "images"
 public_folder: "/images"
 
