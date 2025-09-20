@@ -76,15 +76,14 @@ class CMSLoader {
 
     async loadActualites() {
         try {
-            const response = await fetch('content/actualites/');
+            // Charger les actualités depuis GitHub API
+            const response = await fetch('https://api.github.com/repos/Revan80/nouvelleVoie/contents/content/actualites');
             if (response.ok) {
-                const text = await response.text();
-                const files = text.match(/href="([^"]*\.md)"/g);
-                if (files) {
-                    this.content.actualites = [];
-                    for (const fileMatch of files) {
-                        const filename = fileMatch.match(/href="([^"]*)"/)[1];
-                        const fileResponse = await fetch(`content/actualites/${filename}`);
+                const files = await response.json();
+                this.content.actualites = [];
+                for (const file of files) {
+                    if (file.name.endsWith('.md')) {
+                        const fileResponse = await fetch(file.download_url);
                         if (fileResponse.ok) {
                             const content = this.parseMarkdown(await fileResponse.text());
                             this.content.actualites.push(content);
