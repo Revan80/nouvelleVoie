@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - La Nouvelle Voie (Test)</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .section {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .section h3 {
+      margin-top: 0;
+      color: #34495e;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    textarea {
+      height: 100px;
+      resize: vertical;
+    }
+    button {
+      background: #3498db;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    .info {
+      background: #e8f4fd;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      border-left: 4px solid #3498db;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏛️ Administration - La Nouvelle Voie</h1>
+    
+    <div class="info">
+      <strong>⚠️ Version de test</strong><br>
+      Cette interface permet de tester la modification du contenu. 
+      Les modifications sont temporaires et ne sont pas sauvegardées.
+    </div>
+
+    <div class="section">
+      <h3>📝 Page d'Accueil</h3>
+      <div class="form-group">
+        <label>Titre principal :</label>
+        <input type="text" id="hero-title" value="La Nouvelle Voie">
+      </div>
+      <div class="form-group">
+        <label>Sous-titre :</label>
+        <input type="text" id="hero-subtitle" value="Ensemble, construisons l'avenir de notre société">
+      </div>
+      <button onclick="updateHero()">Mettre à jour</button>
+    </div>
+
+    <div class="section">
+      <h3>👤 Profil du Président</h3>
+      <div class="form-group">
+        <label>Nom :</label>
+        <input type="text" id="profile-name" value="Michel Zumkeller">
+      </div>
+      <div class="form-group">
+        <label>Titre :</label>
+        <input type="text" id="profile-title" value="Député honoraire">
+      </div>
+      <div class="form-group">
+        <label>Rôle :</label>
+        <input type="text" id="profile-role" value="Président de La Nouvelle Voie">
+      </div>
+      <button onclick="updateProfile()">Mettre à jour</button>
+    </div>
+
+    <div class="section">
+      <h3>📰 Éditorial</h3>
+      <div class="form-group">
+        <label>Contenu :</label>
+        <textarea id="editorial-content">Madame, Monsieur,
+
+Nous nous rassemblons parce que nous sommes persuadés que c'est grâce à l'engagement des citoyennes et des citoyens que nous pouvons faire avancer notre pays.
+
+La base de notre engagement repose sur les valeurs de la république. Tout commence par la liberté, individuelle et collective se poursuit par l'égalité dans le respect de la fraternité qui fonde notre engagement humaniste.</textarea>
+      </div>
+      <button onclick="updateEditorial()">Mettre à jour</button>
+    </div>
+
+    <div class="section">
+      <h3>💬 Appel à l'Action</h3>
+      <div class="form-group">
+        <label>Message :</label>
+        <textarea id="cta-message">Alors si comme nous vous
+croyez que l'on peut changer
+les choses, rejoignez-nous !</textarea>
+      </div>
+      <button onclick="updateCTA()">Mettre à jour</button>
+    </div>
+  </div>
+
+  <script>
+    function updateHero() {
+      const title = document.getElementById('hero-title').value;
+      const subtitle = document.getElementById('hero-subtitle').value;
+      
+      // Mettre à jour la page principale
+      if (window.opener) {
+        window.opener.document.querySelector('.hero-title').textContent = title;
+        window.opener.document.querySelector('.hero-subtitle').textContent = subtitle;
+        alert('Page d\'accueil mise à jour !');
+      } else {
+        alert('Ouvrez le site principal dans un autre onglet pour voir les changements');
+      }
+    }
+
+    function updateProfile() {
+      const name = document.getElementById('profile-name').value;
+      const title = document.getElementById('profile-title').value;
+      const role = document.getElementById('profile-role').value;
+      
+      if (window.opener) {
+        window.opener.document.querySelector('.profile-name').textContent = name;
+        window.opener.document.querySelector('.profile-title').textContent = title;
+        window.opener.document.querySelector('.profile-role').textContent = role;
+        alert('Profil mis à jour !');
+      } else {
+        alert('Ouvrez le site principal dans un autre onglet pour voir les changements');
+      }
+    }
+
+    function updateEditorial() {
+      const content = document.getElementById('editorial-content').value;
+      
+      if (window.opener) {
+        window.opener.document.querySelector('.editorial-content').innerHTML = content.replace(/\n/g, '<br>');
+        alert('Éditorial mis à jour !');
+      } else {
+        alert('Ouvrez le site principal dans un autre onglet pour voir les changements');
+      }
+    }
+
+    function updateCTA() {
+      const message = document.getElementById('cta-message').value;
+      
+      if (window.opener) {
+        window.opener.document.querySelector('.cta-box p').innerHTML = message.replace(/\n/g, '<br>');
+        alert('Appel à l\'action mis à jour !');
+      } else {
+        alert('Ouvrez le site principal dans un autre onglet pour voir les changements');
+      }
+    }
+  </script>
+</body>
+</html>

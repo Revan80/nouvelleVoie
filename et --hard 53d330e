@@ -1,0 +1,3 @@
+[33me075d1b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m Ajout du dossier admin pour le CMS
+[33m53d330e[m Fix: Suppression du plugin Git Gateway pour éviter l'erreur de build
+[33m253ba70[m start CMS
