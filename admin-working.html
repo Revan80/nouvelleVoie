@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - La Nouvelle Voie</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .section {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .section h3 {
+      margin-top: 0;
+      color: #34495e;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    textarea {
+      height: 100px;
+      resize: vertical;
+    }
+    button {
+      background: #3498db;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏛️ Administration - La Nouvelle Voie</h1>
+    
+    <div class="success" id="success">✅ Modification sauvegardée avec succès !</div>
+    <div class="error" id="error">❌ Erreur lors de la sauvegarde</div>
+
+    <div class="section">
+      <h3>📝 Page d'Accueil</h3>
+      <div class="form-group">
+        <label>Titre principal :</label>
+        <input type="text" id="hero-title" value="La Nouvelle Voie">
+      </div>
+      <div class="form-group">
+        <label>Sous-titre :</label>
+        <input type="text" id="hero-subtitle" value="Ensemble, construisons l'avenir de notre société">
+      </div>
+      <button onclick="updateHero()">Mettre à jour</button>
+    </div>
+
+    <div class="section">
+      <h3>👤 Profil du Président</h3>
+      <div class="form-group">
+        <label>Nom :</label>
+        <input type="text" id="profile-name" value="Michel Zumkeller">
+      </div>
+      <div class="form-group">
+        <label>Titre :</label>
+        <input type="text" id="profile-title" value="Député honoraire">
+      </div>
+      <div class="form-group">
+        <label>Rôle :</label>
+        <input type="text" id="profile-role" value="Président de La Nouvelle Voie">
+      </div>
+      <button onclick="updateProfile()">Mettre à jour</button>
+    </div>
+
+    <div class="section">
+      <h3>📰 Éditorial</h3>
+      <div class="form-group">
+        <label>Contenu :</label>
+        <textarea id="editorial-content">Madame, Monsieur,
+
+Nous nous rassemblons parce que nous sommes persuadés que c'est grâce à l'engagement des citoyennes et des citoyens que nous pouvons faire avancer notre pays.
+
+La base de notre engagement repose sur les valeurs de la république. Tout commence par la liberté, individuelle et collective se poursuit par l'égalité dans le respect de la fraternité qui fonde notre engagement humaniste.</textarea>
+      </div>
+      <button onclick="updateEditorial()">Mettre à jour</button>
+    </div>
+
+    <div class="section">
+      <h3>📰 Actualités</h3>
+      <div class="form-group">
+        <label>Titre de l'actualité :</label>
+        <input type="text" id="news-title" placeholder="Titre de l'actualité">
+      </div>
+      <div class="form-group">
+        <label>Contenu :</label>
+        <textarea id="news-content" placeholder="Contenu de l'actualité"></textarea>
+      </div>
+      <button onclick="addNews()">Ajouter une actualité</button>
+    </div>
+  </div>
+
+  <script>
+    function showSuccess() {
+      document.getElementById('success').style.display = 'block';
+      document.getElementById('error').style.display = 'none';
+      setTimeout(() => {
+        document.getElementById('success').style.display = 'none';
+      }, 3000);
+    }
+
+    function showError() {
+      document.getElementById('error').style.display = 'block';
+      document.getElementById('success').style.display = 'none';
+      setTimeout(() => {
+        document.getElementById('error').style.display = 'none';
+      }, 3000);
+    }
+
+    function updateHero() {
+      const title = document.getElementById('hero-title').value;
+      const subtitle = document.getElementById('hero-subtitle').value;
+      
+      // Sauvegarder dans localStorage pour l'instant
+      localStorage.setItem('hero-title', title);
+      localStorage.setItem('hero-subtitle', subtitle);
+      
+      showSuccess();
+    }
+
+    function updateProfile() {
+      const name = document.getElementById('profile-name').value;
+      const title = document.getElementById('profile-title').value;
+      const role = document.getElementById('profile-role').value;
+      
+      localStorage.setItem('profile-name', name);
+      localStorage.setItem('profile-title', title);
+      localStorage.setItem('profile-role', role);
+      
+      showSuccess();
+    }
+
+    function updateEditorial() {
+      const content = document.getElementById('editorial-content').value;
+      
+      localStorage.setItem('editorial-content', content);
+      
+      showSuccess();
+    }
+
+    function addNews() {
+      const title = document.getElementById('news-title').value;
+      const content = document.getElementById('news-content').value;
+      
+      if (!title || !content) {
+        showError();
+        return;
+      }
+      
+      // Sauvegarder l'actualité
+      const news = {
+        title: title,
+        content: content,
+        date: new Date().toISOString()
+      };
+      
+      let newsList = JSON.parse(localStorage.getItem('news-list') || '[]');
+      newsList.push(news);
+      localStorage.setItem('news-list', JSON.stringify(newsList));
+      
+      // Vider les champs
+      document.getElementById('news-title').value = '';
+      document.getElementById('news-content').value = '';
+      
+      showSuccess();
+    }
+
+    // Charger les données sauvegardées au chargement
+    window.addEventListener('load', () => {
+      document.getElementById('hero-title').value = localStorage.getItem('hero-title') || 'La Nouvelle Voie';
+      document.getElementById('hero-subtitle').value = localStorage.getItem('hero-subtitle') || 'Ensemble, construisons l\'avenir de notre société';
+      document.getElementById('profile-name').value = localStorage.getItem('profile-name') || 'Michel Zumkeller';
+      document.getElementById('profile-title').value = localStorage.getItem('profile-title') || 'Député honoraire';
+      document.getElementById('profile-role').value = localStorage.getItem('profile-role') || 'Président de La Nouvelle Voie';
+      document.getElementById('editorial-content').value = localStorage.getItem('editorial-content') || 'Madame, Monsieur,\n\nNous nous rassemblons parce que nous sommes persuadés que c\'est grâce à l\'engagement des citoyennes et des citoyens que nous pouvons faire avancer notre pays.\n\nLa base de notre engagement repose sur les valeurs de la république. Tout commence par la liberté, individuelle et collective se poursuit par l\'égalité dans le respect de la fraternité qui fonde notre engagement humaniste.';
+    });
+  </script>
+</body>
+</html>
