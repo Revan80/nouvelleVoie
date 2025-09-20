@@ -15,8 +15,8 @@
   status = 200
 
 # Configuration pour Netlify CMS
-[[plugins]]
-  package = "@netlify/plugin-git-gateway"
+# [[plugins]]
+#   package = "@netlify/plugin-git-gateway"
 
 # Configuration pour l'authentification
 [build.environment]
