@@ -1,0 +1,23 @@
+[build]
+  publish = "."
+  command = "echo 'Site statique - pas de build nécessaire'"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+# Configuration pour Netlify CMS
+[[plugins]]
+  package = "@netlify/plugin-git-gateway"
+
+# Configuration pour l'authentification
+[build.environment]
+  NETLIFY_USE_YARN = "true"

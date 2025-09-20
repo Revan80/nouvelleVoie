@@ -1,0 +1,99 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  # Configuration pour les pages principales
+  - name: "pages"
+    label: "Pages principales"
+    files:
+      - label: "Page d'accueil"
+        name: "accueil"
+        file: "content/pages/accueil.md"
+        fields:
+          - {label: "Titre principal", name: "titre", widget: "string"}
+          - {label: "Sous-titre", name: "sous_titre", widget: "string"}
+          - {label: "Bouton principal", name: "bouton_principal", widget: "string"}
+          - {label: "Bouton secondaire", name: "bouton_secondaire", widget: "string"}
+      
+      - label: "Profil du Président"
+        name: "profil"
+        file: "content/pages/profil.md"
+        fields:
+          - {label: "Nom", name: "nom", widget: "string"}
+          - {label: "Titre", name: "titre", widget: "string"}
+          - {label: "Rôle", name: "role", widget: "string"}
+          - {label: "Photo", name: "photo", widget: "image"}
+          - {label: "Signature", name: "signature", widget: "image"}
+
+  # Configuration pour les valeurs
+  - name: "valeurs"
+    label: "Nos Valeurs"
+    folder: "content/valeurs"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Titre", name: "titre", widget: "string"}
+      - {label: "Icône", name: "icone", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+
+  # Configuration pour les actualités
+  - name: "actualites"
+    label: "Actualités"
+    folder: "content/actualites"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Titre", name: "titre", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Auteur", name: "auteur", widget: "string"}
+      - {label: "Image", name: "image", widget: "image", required: false}
+      - {label: "Résumé", name: "resume", widget: "text"}
+      - {label: "Contenu", name: "contenu", widget: "markdown"}
+
+  # Configuration pour les sections éditoriales
+  - name: "editorial"
+    label: "Éditorial"
+    files:
+      - label: "Éditorial principal"
+        name: "editorial"
+        file: "content/pages/editorial.md"
+        fields:
+          - {label: "Contenu", name: "contenu", widget: "markdown"}
+
+  # Configuration pour les sections "Nous défendons" et "Nous luttons"
+  - name: "positions"
+    label: "Nos Positions"
+    files:
+      - label: "Nous défendons"
+        name: "defendons"
+        file: "content/pages/defendons.md"
+        fields:
+          - label: "Points de défense"
+            name: "points"
+            widget: "list"
+            fields:
+              - {label: "Point", name: "point", widget: "text"}
+      
+      - label: "Nous luttons"
+        name: "luttons"
+        file: "content/pages/luttons.md"
+        fields:
+          - label: "Points de lutte"
+            name: "points"
+            widget: "list"
+            fields:
+              - {label: "Point", name: "point", widget: "text"}
+
+  # Configuration pour l'appel à l'action
+  - name: "cta"
+    label: "Appel à l'Action"
+    files:
+      - label: "Message d'appel"
+        name: "message"
+        file: "content/pages/cta.md"
+        fields:
+          - {label: "Message", name: "message", widget: "text"}
