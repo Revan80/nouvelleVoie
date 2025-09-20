@@ -1,6 +1,6 @@
 ---
-titre: La Nouvelle Voie - TEST CACHE
-sous_titre: Test de résolution du problème de cache - $(date)
-bouton_principal: Test Bouton Principal
-bouton_secondaire: Test Bouton Secondaire
+titre: La Nouvelle Voie - DÉPLOIEMENT RÉUSSI
+sous_titre: Le problème de cache est résolu - Site fonctionnel
+bouton_principal: Nous Rejoindre
+bouton_secondaire: Nos Actualités
 ---
