@@ -7,6 +7,18 @@ media_folder: "static/uploads"
 public_folder: "/uploads"
 
 collections:
+  - name: "settings"
+    label: "Paramètres du site"
+    files:
+      - name: "general"
+        label: "Paramètres généraux"
+        file: "data/settings/general.yml"
+        fields:
+          - {label: "Titre du site", name: "site_title", widget: "string", default: "La Nouvelle Voie"}
+          - {label: "Sous-titre", name: "site_subtitle", widget: "string", default: "Ensemble, construisons l'avenir de notre société"}
+          - {label: "Description", name: "site_description", widget: "text", default: "Site officiel de La Nouvelle Voie"}
+          - {label: "Email de contact", name: "contact_email", widget: "string", default: "contact@lanouvellevoie.fr"}
+
   - name: "inscriptions"
     label: "Inscriptions Newsletter"
     folder: "data/inscriptions"

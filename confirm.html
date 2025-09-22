@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirmation - La Nouvelle Voie</title>
+  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    
+    .confirmation-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .confirmation-container h2 {
+      color: #1e3a8a;
+      margin-bottom: 1.5rem;
+    }
+    
+    .message {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: #1e3a8a;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .btn:hover {
+      background: #1e40af;
+    }
+  </style>
+</head>
+<body>
+  <div class="confirmation-container">
+    <h2>Confirmation de compte</h2>
+    <div id="message" class="message">
+      Vérification en cours...
+    </div>
+    <div id="actions" style="display: none;">
+      <a href="/admin/" class="btn">Accéder à l'administration</a>
+    </div>
+  </div>
+
+  <script>
+    function showMessage(text, type) {
+      const messageEl = document.getElementById('message');
+      messageEl.className = `message ${type}`;
+      messageEl.textContent = text;
+    }
+
+    function showActions() {
+      document.getElementById('actions').style.display = 'block';
+    }
+
+    // Initialiser Netlify Identity
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (user) {
+          showMessage('✅ Compte confirmé avec succès ! Vous pouvez maintenant vous connecter.', 'success');
+          showActions();
+        }
+      });
+
+      window.netlifyIdentity.on("login", user => {
+        showMessage('✅ Connexion réussie ! Redirection vers l\'administration...', 'success');
+        setTimeout(() => {
+          window.location.href = '/admin/';
+        }, 2000);
+      });
+
+      window.netlifyIdentity.on("error", err => {
+        console.error('Erreur Identity:', err);
+        showMessage('❌ Erreur lors de la confirmation. Veuillez réessayer ou contacter l\'administrateur.', 'error');
+      });
+
+      // Gérer la confirmation d'email
+      window.addEventListener('load', function() {
+        const hash = window.location.hash;
+        
+        if (hash.includes('confirmation_token') || hash.includes('email_change_token') || hash.includes('recovery_token')) {
+          console.log('Token de confirmation détecté');
+          
+          // Attendre un peu pour que Netlify Identity traite le token
+          setTimeout(() => {
+            const user = window.netlifyIdentity.currentUser();
+            if (user) {
+              showMessage('✅ Compte confirmé avec succès ! Vous êtes maintenant connecté.', 'success');
+              showActions();
+            } else {
+              showMessage('⏳ Confirmation en cours... Vous allez être redirigé.', 'success');
+              setTimeout(() => {
+                window.location.href = '/admin/';
+              }, 3000);
+            }
+          }, 2000);
+        } else {
+          showMessage('❌ Aucun token de confirmation trouvé. Vérifiez le lien dans votre email.', 'error');
+        }
+      });
+    } else {
+      showMessage('❌ Service d\'authentification non disponible.', 'error');
+    }
+  </script>
+</body>
+</html>

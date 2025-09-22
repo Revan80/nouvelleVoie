@@ -1,0 +1,2 @@
+# Redirections Netlify Identity
+/admin/#* /confirm.html 200

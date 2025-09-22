@@ -244,9 +244,30 @@
     // Vérifier l'état initial
     window.addEventListener('load', function() {
       if (window.netlifyIdentity) {
-        const user = window.netlifyIdentity.currentUser();
-        if (user) {
-          loadCMS();
+        // Gérer les tokens de confirmation dans l'URL
+        const hash = window.location.hash;
+        if (hash.includes('confirmation_token') || hash.includes('email_change_token') || hash.includes('recovery_token')) {
+          showMessage('message', 'Confirmation en cours...', 'success');
+          
+          // Attendre que Netlify Identity traite le token
+          setTimeout(() => {
+            const user = window.netlifyIdentity.currentUser();
+            if (user) {
+              showMessage('message', '✅ Compte confirmé avec succès !', 'success');
+              setTimeout(() => {
+                loadCMS();
+              }, 2000);
+            } else {
+              showMessage('message', 'Confirmation terminée. Vous pouvez maintenant vous connecter.', 'success');
+              // Nettoyer l'URL
+              window.history.replaceState({}, document.title, window.location.pathname);
+            }
+          }, 3000);
+        } else {
+          const user = window.netlifyIdentity.currentUser();
+          if (user) {
+            loadCMS();
+          }
         }
       }
     });
