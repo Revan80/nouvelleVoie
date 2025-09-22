@@ -20,6 +20,21 @@ collections:
       - {label: "Image", name: "image", widget: "image", required: false}
       - {label: "Publié", name: "published", widget: "boolean", default: true}
 
+  - name: "inscriptions"
+    label: "Inscriptions Newsletter"
+    folder: "data/inscriptions"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Prénom", name: "prenom", widget: "string"}
+      - {label: "Nom", name: "nom", widget: "string"}
+      - {label: "Email", name: "email", widget: "string"}
+      - {label: "Ville", name: "ville", widget: "string", required: false}
+      - {label: "Newsletter", name: "newsletter", widget: "boolean", default: true}
+      - {label: "Événements", name: "evenements", widget: "boolean", default: false}
+      - {label: "Date d'inscription", name: "date_inscription", widget: "datetime"}
+      - {label: "Statut", name: "statut", widget: "select", options: ["actif", "désinscrit", "en attente"], default: "actif"}
+
   - name: "adhesion"
     label: "Demandes d'adhésion"
     folder: "pages/adhesion"
