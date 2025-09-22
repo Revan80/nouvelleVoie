@@ -4,8 +4,52 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Administration - La Nouvelle Voie</title>
+  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
   <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+  
+  <script>
+    // Initialisation de Netlify Identity
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (user) {
+          console.log('Utilisateur déjà connecté:', user);
+        }
+      });
+
+      window.netlifyIdentity.on("login", user => {
+        console.log('Connexion réussie:', user);
+      });
+
+      window.netlifyIdentity.on("logout", () => {
+        console.log('Déconnexion');
+      });
+
+      // Gestion des tokens de confirmation
+      window.addEventListener('load', function() {
+        const hash = window.location.hash;
+        console.log('Hash URL:', hash);
+        
+        if (hash.includes('confirmation_token') || hash.includes('email_change_token') || hash.includes('recovery_token')) {
+          console.log('Token de confirmation détecté');
+          
+          // Attendre que Netlify Identity traite le token
+          setTimeout(() => {
+            const user = window.netlifyIdentity.currentUser();
+            console.log('Utilisateur après confirmation:', user);
+            
+            if (user) {
+              console.log('✅ Compte confirmé avec succès !');
+            } else {
+              console.log('Confirmation terminée, utilisateur peut se connecter');
+              // Nettoyer l'URL
+              window.history.replaceState({}, document.title, window.location.pathname);
+            }
+          }, 3000);
+        }
+      });
+    }
+  </script>
 </body>
 </html>
