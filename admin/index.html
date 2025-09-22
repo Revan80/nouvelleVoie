@@ -113,16 +113,11 @@
     <div class="auth-form">
       <!-- Formulaire de connexion -->
       <div id="login-form">
-        <h2>Connexion Administration</h2>
+        <h2>Administration - La Nouvelle Voie</h2>
         <div id="message"></div>
-        <div class="form-group">
-          <label for="login-email">Email</label>
-          <input type="email" id="login-email" required>
-        </div>
-        <div class="form-group">
-          <label for="login-password">Mot de passe</label>
-          <input type="password" id="login-password" required>
-        </div>
+        <p style="color: #64748b; margin-bottom: 1.5rem; text-align: center;">
+          Cliquez sur le bouton pour vous connecter avec vos identifiants Netlify Identity
+        </p>
         <button class="btn" onclick="handleLogin()">Se connecter</button>
         <div class="toggle-link" onclick="showSignup()">Pas encore de compte ? S'inscrire</div>
       </div>
@@ -209,16 +204,25 @@
     }
 
     function handleLogin() {
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-
-      if (!email || !password) {
-        showMessage('message', 'Veuillez remplir tous les champs', 'error');
-        return;
-      }
-
       if (window.netlifyIdentity) {
-        window.netlifyIdentity.login();
+        showMessage('message', 'Ouverture de la fenêtre de connexion...', 'success');
+        
+        // Ouvrir la popup de connexion Netlify Identity
+        window.netlifyIdentity.open('login');
+        
+        // Écouter les événements de connexion
+        window.netlifyIdentity.on('login', user => {
+          showMessage('message', '✅ Connexion réussie !', 'success');
+          setTimeout(() => {
+            loadCMS();
+          }, 1000);
+        });
+        
+        window.netlifyIdentity.on('error', err => {
+          console.error('Erreur de connexion:', err);
+          showMessage('message', '❌ Erreur de connexion. Vérifiez vos identifiants.', 'error');
+        });
+        
       } else {
         showMessage('message', 'Service d\'authentification non disponible', 'error');
       }
