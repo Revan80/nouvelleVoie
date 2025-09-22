@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administration Simple - La Nouvelle Voie</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    
+    .admin-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #1e3a8a;
+      margin-bottom: 2rem;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: #1e3a8a;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin: 0.5rem;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background: #1e40af;
+    }
+    
+    .message {
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+    
+    .success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <h1>Administration</h1>
+    <div id="message"></div>
+    
+    <div id="auth-section">
+      <p>Pour accéder à l'administration, vous devez vous authentifier.</p>
+      <button class="btn" onclick="openNetlifyCMS()">Accéder au CMS</button>
+      <br><br>
+      <a href="https://test8585.netlify.app/.netlify/identity" class="btn" target="_blank">
+        Gérer mon compte
+      </a>
+    </div>
+    
+    <div id="cms-section" style="display: none;">
+      <p>Chargement du CMS...</p>
+    </div>
+  </div>
+
+  <script>
+    function showMessage(text, type) {
+      const messageEl = document.getElementById('message');
+      messageEl.innerHTML = `<div class="message ${type}">${text}</div>`;
+    }
+
+    function openNetlifyCMS() {
+      showMessage('Redirection vers Netlify CMS...', 'success');
+      
+      // Rediriger vers l'URL standard de Netlify CMS
+      window.location.href = 'https://test8585.netlify.app/.netlify/identity/admin/';
+    }
+
+    // Vérifier si nous sommes dans un contexte Netlify
+    if (window.location.hostname.includes('netlify')) {
+      showMessage('✅ Site hébergé sur Netlify - CMS disponible', 'success');
+    } else {
+      showMessage('⚠️ En développement local - CMS limité', 'error');
+    }
+  </script>
+</body>
+</html>
