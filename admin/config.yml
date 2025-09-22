@@ -37,4 +37,3 @@ display_url: "https://votre-site.netlify.app"
 
 # Configuration de l'authentification
 local_backend: true
-
