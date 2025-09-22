@@ -5,26 +5,11 @@ backend:
 media_folder: "static/uploads"
 public_folder: "/uploads"
 
-# Configuration des collections (contenu éditable)
 collections:
-  - name: "actualites"
-    label: "Actualités"
-    folder: "pages/actualites"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - {label: "Titre", name: "title", widget: "string"}
-      - {label: "Date", name: "date", widget: "datetime"}
-      - {label: "Auteur", name: "author", widget: "string"}
-      - {label: "Contenu", name: "body", widget: "markdown"}
-      - {label: "Image", name: "image", widget: "image", required: false}
-      - {label: "Publié", name: "published", widget: "boolean", default: true}
-
   - name: "inscriptions"
     label: "Inscriptions Newsletter"
     folder: "data/inscriptions"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - {label: "Prénom", name: "prenom", widget: "string"}
       - {label: "Nom", name: "nom", widget: "string"}
@@ -35,20 +20,4 @@ collections:
       - {label: "Date d'inscription", name: "date_inscription", widget: "datetime"}
       - {label: "Statut", name: "statut", widget: "select", options: ["actif", "désinscrit", "en attente"], default: "actif"}
 
-  - name: "adhesion"
-    label: "Demandes d'adhésion"
-    folder: "pages/adhesion"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - {label: "Titre", name: "title", widget: "string"}
-      - {label: "Date", name: "date", widget: "datetime"}
-      - {label: "Contenu", name: "body", widget: "markdown"}
-      - {label: "Formulaire actif", name: "active", widget: "boolean", default: true}
-
-# Configuration du site
-site_url: "https://votre-site.netlify.app"
-display_url: "https://votre-site.netlify.app"
-
-# Configuration de l'authentification
 local_backend: true
