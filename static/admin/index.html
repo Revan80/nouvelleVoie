@@ -3,13 +3,65 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager</title>
+  <title>Administration - La Nouvelle Voie</title>
 
-  <!-- Include the styles for the Netlify CMS UI, after your own styles -->
+  <!-- Include the styles for the Netlify CMS UI -->
   <link rel="stylesheet" href="https://unpkg.com/netlify-cms@^2.0.0/dist/cms.css" />
 </head>
 <body>
+  <!-- Message de chargement -->
+  <div id="loading-message" style="
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    color: #666;
+    z-index: 1000;
+  ">
+    Chargement de l'interface d'administration...
+  </div>
+
   <!-- Include the script that builds the page and powers Netlify CMS -->
   <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/cms.js"></script>
+  
+  <script>
+    // Diagnostic et gestion des erreurs
+    console.log('Démarrage du chargement de Netlify CMS...');
+    
+    // Vérifier si CMS est chargé
+    window.addEventListener('load', function() {
+      console.log('Page chargée, vérification de CMS...');
+      
+      setTimeout(function() {
+        const loadingMessage = document.getElementById('loading-message');
+        
+        // Vérifier si CMS s'est initialisé
+        if (typeof window.CMS !== 'undefined') {
+          console.log('Netlify CMS chargé avec succès');
+          if (loadingMessage) {
+            loadingMessage.style.display = 'none';
+          }
+        } else {
+          console.error('Netlify CMS n\'a pas pu se charger');
+          if (loadingMessage) {
+            loadingMessage.innerHTML = 'Erreur de chargement. Vérifiez la console pour plus de détails.';
+            loadingMessage.style.color = '#dc2626';
+          }
+        }
+      }, 3000);
+    });
+
+    // Gestion des erreurs
+    window.addEventListener('error', function(e) {
+      console.error('Erreur JavaScript:', e.error);
+      const loadingMessage = document.getElementById('loading-message');
+      if (loadingMessage) {
+        loadingMessage.innerHTML = 'Erreur de chargement. Vérifiez la configuration.';
+        loadingMessage.style.color = '#dc2626';
+      }
+    });
+  </script>
 </body>
 </html>

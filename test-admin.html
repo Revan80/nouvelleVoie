@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Test Admin</title>
+</head>
+<body>
+    <h1>Test d'accès à l'administration</h1>
+    <p>Si vous voyez cette page, le serveur fonctionne.</p>
+    <a href="/admin/">Aller à l'admin</a>
+    
+    <h2>Diagnostic :</h2>
+    <ul>
+        <li>URL actuelle : <span id="current-url"></span></li>
+        <li>Chemin admin : <span id="admin-path"></span></li>
+    </ul>
+    
+    <script>
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('admin-path').textContent = window.location.origin + '/admin/';
+    </script>
+</body>
+</html>
