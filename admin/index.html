@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administration - La Nouvelle Voie</title>
+  <script src="https://unpkg.com/netlify-cms@^3.0.0/dist/netlify-cms.js"></script>
+</head>
+<body>
+  <!-- Netlify CMS sera chargé automatiquement -->
+  <div id="nc-root"></div>
+  
+  <!-- Message de chargement -->
+  <div id="loading-message" style="
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    color: #666;
+    z-index: 1000;
+  ">
+    Chargement de l'interface d'administration...
+  </div>
+  
+  <script>
+    // Masquer le message de chargement une fois CMS chargé
+    window.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        const loadingMessage = document.getElementById('loading-message');
+        if (loadingMessage) {
+          loadingMessage.style.display = 'none';
+        }
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
