@@ -1,66 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Administration - La Nouvelle Voie</title>
-
-  <!-- Include the styles for the Netlify CMS UI -->
-  <link rel="stylesheet" href="https://unpkg.com/netlify-cms@^2.0.0/dist/cms.css" />
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 </head>
 <body>
-  <!-- Message de chargement -->
-  <div id="loading-message" style="
+  <!-- Message de diagnostic -->
+  <div id="debug-info" style="
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: Arial, sans-serif;
-    font-size: 18px;
-    color: #666;
-    z-index: 1000;
+    top: 10px;
+    right: 10px;
+    background: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-family: monospace;
+    font-size: 12px;
+    z-index: 9999;
+    max-width: 300px;
   ">
-    Chargement de l'interface d'administration...
+    <div>Chargement de Netlify CMS...</div>
+    <div id="debug-status">En attente...</div>
   </div>
 
-  <!-- Include the script that builds the page and powers Netlify CMS -->
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/cms.js"></script>
-  
   <script>
-    // Diagnostic et gestion des erreurs
-    console.log('Démarrage du chargement de Netlify CMS...');
+    // Diagnostic complet
+    console.log('=== DIAGNOSTIC NETLIFY CMS ===');
+    console.log('URL actuelle:', window.location.href);
+    console.log('Configuration config.yml attendue à:', window.location.origin + '/admin/config.yml');
     
-    // Vérifier si CMS est chargé
+    // Vérifier le chargement de la configuration
+    fetch('/admin/config.yml')
+      .then(response => {
+        console.log('Status config.yml:', response.status);
+        if (response.ok) {
+          console.log('✅ Configuration trouvée');
+          document.getElementById('debug-status').innerHTML = '✅ Config trouvée';
+        } else {
+          console.log('❌ Configuration non trouvée');
+          document.getElementById('debug-status').innerHTML = '❌ Config non trouvée';
+        }
+        return response.text();
+      })
+      .then(config => {
+        console.log('Contenu de la config:', config.substring(0, 200) + '...');
+      })
+      .catch(error => {
+        console.error('Erreur lors du chargement de la config:', error);
+        document.getElementById('debug-status').innerHTML = '❌ Erreur config';
+      });
+
+    // Vérifier si CMS se charge
     window.addEventListener('load', function() {
-      console.log('Page chargée, vérification de CMS...');
+      console.log('Page chargée');
       
       setTimeout(function() {
-        const loadingMessage = document.getElementById('loading-message');
-        
-        // Vérifier si CMS s'est initialisé
         if (typeof window.CMS !== 'undefined') {
-          console.log('Netlify CMS chargé avec succès');
-          if (loadingMessage) {
-            loadingMessage.style.display = 'none';
-          }
+          console.log('✅ Netlify CMS chargé avec succès');
+          console.log('Collections disponibles:', window.CMS.getCollections ? window.CMS.getCollections() : 'Non disponible');
+          document.getElementById('debug-status').innerHTML = '✅ CMS chargé';
+          document.getElementById('debug-info').style.display = 'none';
         } else {
-          console.error('Netlify CMS n\'a pas pu se charger');
-          if (loadingMessage) {
-            loadingMessage.innerHTML = 'Erreur de chargement. Vérifiez la console pour plus de détails.';
-            loadingMessage.style.color = '#dc2626';
-          }
+          console.error('❌ Netlify CMS n\'a pas pu se charger');
+          document.getElementById('debug-status').innerHTML = '❌ CMS non chargé';
         }
-      }, 3000);
+      }, 5000);
     });
 
     // Gestion des erreurs
     window.addEventListener('error', function(e) {
       console.error('Erreur JavaScript:', e.error);
-      const loadingMessage = document.getElementById('loading-message');
-      if (loadingMessage) {
-        loadingMessage.innerHTML = 'Erreur de chargement. Vérifiez la configuration.';
-        loadingMessage.style.color = '#dc2626';
-      }
+      document.getElementById('debug-status').innerHTML = '❌ Erreur JS: ' + e.message;
     });
   </script>
 </body>

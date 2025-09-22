@@ -1,0 +1,21 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "static/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "inscriptions"
+    label: "Inscriptions Newsletter"
+    folder: "data/inscriptions"
+    create: true
+    fields:
+      - {label: "Prénom", name: "prenom", widget: "string"}
+      - {label: "Nom", name: "nom", widget: "string"}
+      - {label: "Email", name: "email", widget: "string"}
+      - {label: "Ville", name: "ville", widget: "string", required: false}
+      - {label: "Newsletter", name: "newsletter", widget: "boolean", default: true}
+      - {label: "Événements", name: "evenements", widget: "boolean", default: false}
+
+local_backend: true
