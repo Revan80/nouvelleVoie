@@ -20,4 +20,3 @@ collections:
       - {label: "Date d'inscription", name: "date_inscription", widget: "datetime"}
       - {label: "Statut", name: "statut", widget: "select", options: ["actif", "désinscrit", "en attente"], default: "actif"}
 
-local_backend: true
